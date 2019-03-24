@@ -1,0 +1,10 @@
+:host{
+    margin-top: 16px;
+}
+.noPosts{
+    text-align: center;
+}
+mat-expansion-panel{
+    max-width: 800px;
+    margin: auto;
+}
