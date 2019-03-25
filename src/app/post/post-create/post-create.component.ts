@@ -40,10 +40,12 @@ export class PostCreateComponent implements OnInit {
         this.route.paramMap.subscribe(
             (paramMap: ParamMap) => {
                 if (paramMap.has('postId')) {
-                    console.log(paramMap);
                     this.mode = 'edit';
                     this.postId = paramMap.get('postId');
-                    this.post = this.postsService.getPost(this.postId);
+                    this.postsService.getPost(this.postId).subscribe(
+                        (response) => {
+                            this.post = {id: response._id, title: response.title, content: response.content};
+                        });
                 } else {
                     this.mode = 'create';
                     this.postId = null;

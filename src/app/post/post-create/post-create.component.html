@@ -2,7 +2,7 @@
     <form (submit)="onSavePost(postForm)" #postForm="ngForm">
         <mat-form-field>
             <input
-                    [ngModel]="post.title"
+                    [ngModel]="post?.title"
                     matInput
                     type="text"
                     name="title"
@@ -15,7 +15,7 @@
         </mat-form-field>
         <mat-form-field>
             <textarea
-                    [ngModel]="post.content"
+                    [ngModel]="post?.content"
                     matInput
                     rows="6"
                     name="content"
