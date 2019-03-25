@@ -5,7 +5,14 @@ import {AppComponent} from './app.component';
 import {PostCreateComponent} from './post/post-create/post-create.component';
 import {FormsModule} from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatButtonModule, MatCardModule, MatExpansionModule, MatInputModule, MatToolbarModule} from '@angular/material';
+import {
+    MatButtonModule,
+    MatCardModule,
+    MatExpansionModule,
+    MatInputModule,
+    MatProgressSpinnerModule,
+    MatToolbarModule
+} from '@angular/material';
 import { HeaderComponent } from './header/header.component';
 import { PostListComponent } from './post/post-list/post-list.component';
 import {HttpClientModule} from '@angular/common/http';
@@ -29,6 +36,7 @@ import { AppRoutingModule } from './app-routing.module';
         MatToolbarModule,
         MatExpansionModule,
         HttpClientModule,
+        MatProgressSpinnerModule,
     ],
     providers: [],
     bootstrap: [AppComponent]
