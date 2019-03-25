@@ -14,6 +14,12 @@
                 Please enter a post title.
             </mat-error>
         </mat-form-field>
+        <div>
+            <button (click)="filePicker.click()" type="button" mat-stroked-button>
+                Pick Image...
+            </button>
+            <input type="file" #filePicker>
+        </div>
         <mat-form-field>
             <textarea
                     [ngModel]="post?.content"
