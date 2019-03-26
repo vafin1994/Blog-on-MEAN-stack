@@ -11,3 +11,12 @@ mat-spinner{
 input[type=file]{
     visibility: hidden;
 }
+.imagePreview{
+    margin: 5px;
+    height: 90px;
+    width: 160px
+}
+.imagePreview img{
+    width: 98%;
+    height: 98%;
+}
