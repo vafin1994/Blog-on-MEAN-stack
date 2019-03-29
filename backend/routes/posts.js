@@ -1,13 +1,34 @@
+/* tslint:disable:quotemark */
 const express = require("express");
 const Post = require('../models/post');
+const multer = require('multer');
 const router = express.Router();
 
+const MIME_TYPE_MAP = {
+    'image/png': 'png',
+    'image/jpg': 'jpg',
+    'image/jpeg': 'jpg',
+};
+const storage = multer.diskStorage({
+    destination: (req, file, callback) => {
+        const isValid = MIME_TYPE_MAP[file.mimetype];
+        let error = new Error('Invalid Mime Type');
+        if (isValid) {
+            error = null;
+        }
+        callback(error, "backend/images");
+    },
+    filename: (req, file, callback) => {
+        const name = file.originalname.toLowerCase().split(' ').join('-');
+        const ext = MIME_TYPE_MAP[file.mimetype];
+        callback(null, name + '-' + Date.now() + '.' + ext);
+    },
+});
 
 // Get List of posts
 router.get('', (req, res, next) => {
     Post.find()
         .then(documents => {
-            console.log(documents);
             res.status(200).json({
                 message: 'Success',
                 posts: documents,
@@ -20,21 +41,27 @@ router.get('/:id', (req, res, next) => {
         if (post) {
             res.status(200).json(post);
         } else {
-            res.status(404).json({message: 'Post not found'})
+            res.status(404).json({message: 'Post not found'});
         }
-    })
+    });
 });
 // Create new post
-router.post("", (req, res, next) => {
+router.post("", multer({storage: storage}).single("image"), (req, res, next) => {
+    const url = req.protocol + '://' + req.get("host");
     const post = new Post({
-        title: req.body.title,
         content: req.body.content,
+        imagePath: url + "/images/" + req.file.filename,
+        title: req.body.title,
     });
     post.save().then(result => {
-        console.log(result);
         res.status(201).json({
             message: 'Success',
-            id: result._id,
+            post: {
+                content: result.content,
+                id: result._id,
+                imagePath: result.imagePath,
+                title: result.title,
+            },
         });
     });
 });
@@ -42,14 +69,13 @@ router.post("", (req, res, next) => {
 router.put("/:id", (req, res, next) => {
     const post = new Post({
         _id: req.body.id,
-        title: req.body.title,
         content: req.body.content,
+        title: req.body.title,
     });
     Post.updateOne({_id: req.params.id}, post).then(
         result => {
             res.status(200).json({message: 'Update successful'});
-        }
-    )
+        });
 });
 // Delete post
 router.delete('/:id', (req, res, next) => {

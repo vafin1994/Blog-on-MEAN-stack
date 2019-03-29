@@ -11,3 +11,10 @@ mat-expansion-panel{
 mat-spinner{
     margin: auto;
 }
+.postImage{
+    width: 100%;
+}
+.postImage img{
+    width: 100%;
+    border-radius: 5px;
+}
